@@ -1,4 +1,5 @@
 from django.db import models
+import os
 
 
 class Post(models.Model):
@@ -14,9 +15,18 @@ class Post(models.Model):
     #author : 추후 작성 예정
 
 
+
     def __str__(self):
         return f'[{self.pk}] {self.title}'
 
 
     def get_absolute_url(self):
         return f'/blog/{self.pk}'
+
+
+    def get_file_name(self):
+        return os.path.basename(self.file_upload.name)
+
+
+    def get_file_ext(self):
+        return self.get_file_name().split('.')[-1]
