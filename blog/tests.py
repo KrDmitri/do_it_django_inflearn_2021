@@ -9,14 +9,29 @@ class TestView(TestCase):
         self.client = Client()
 
 
+    def navbar_test(self, soup):
+        navbar = soup.nav
+        self.assertIn('Blog', navbar.text)
+        self.assertIn('About me', navbar.text)
+
+        logo_btn = navbar.find('a', text='Do It Django')
+        self.assertEqual(logo_btn.attrs['href'], '/')
+
+        home_btn = navbar.find('a', text='Home')
+        self.assertEqual(home_btn.attrs['href'], '/')
+
+        about_me_btn = navbar.find('a', text='About me')
+        self.assertEqual(about_me_btn.attrs['href'], '/about_me/')
+
+
     def test_post_list(self):
         response = self.client.get('/blog/')
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
         self.assertIn('Blog', soup.title.text)
-        navbar = soup.nav
-        self.assertIn('Blog', navbar.text)
-        self.assertIn('About me', navbar.text)
+
+        self.navbar_test(soup)
+
         self.assertEqual(Post.objects.count(), 0)
         main_area = soup.find('div', id='main-area')
         self.assertIn('아직 게시물이 없습니다', main_area.text)
@@ -51,9 +66,8 @@ class TestView(TestCase):
         # self.assertEqual(response.status_code, 200)
 
         soup = BeautifulSoup(response.content, 'html.parser')
-        # navbar = soup.nav
-        # self.assertIn('Blog', navbar.text)
-        # self.assertIn('About me', navbar.text)
+        # self.navbar_test(soup)
+
         # self.assertIn(post_001.title, soup.title.text)
 
         # main_area=soup.find('div', id='main-area')
