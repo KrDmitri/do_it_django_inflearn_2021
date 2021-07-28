@@ -125,6 +125,7 @@ class TestView(TestCase):
 
         soup = BeautifulSoup(response.content, 'html.parser')
         # self.navbar_test(soup)
+        # self.category_card_test(soup)
 
         # self.assertIn(self.post_001.title, soup.title.text)
 
