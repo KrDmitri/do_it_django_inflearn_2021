@@ -57,6 +57,15 @@
                     {% endif %}
                     {{ post.get_file_name }}
 
+                    {% if post.tags.exists %}
+                    <i class="fas fa-tags"></i>
+                    {% for tag in post.tags.iterator %}
+                    <a href="{{ tag.get_absolute_url }}"><span class="badge bg-light text-dark">{{ tag }}</span></a>
+                    {% endfor %}
+                    <br/>
+                    <br/>
+                    {% endif %}
+
                 </a>
             {% endif %}
         </section>
